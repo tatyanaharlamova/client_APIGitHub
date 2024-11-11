@@ -1,10 +1,50 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Client_APIGithub</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
 
+<div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+    <h1 class="display-4">Список коммитов</h1>
+</div>
+
+<form class=" my-2 my-lg-0 d-flex flex-row-reverse" method="GET" action="{% url 'client:commits-list' %}">
+    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    <input class="form-control mr-sm-2" name="search" placeholder="Search" aria-label="Search">
+</form>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Дата</th>
+        <th scope="col">Автор</th>
+        <th scope="col">URL</th>
+        <th scope="col">sha</th>
+        <th scope="col">Коментарии</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for object in object_list %}
+    <tr>
+        <td>{{ object.date }}</td>
+        <td>{{ object.author }}</td>
+        <td>{{ object.url }}</td>
+        <td>{{ object.sha }}</td>
+        <td>{{ object.comments }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 </body>
 </html>
