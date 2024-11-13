@@ -15,8 +15,8 @@ for repo in g.search_repositories("tatyanaharlamova/mailing_service"):
 
 
 #
-repo = g.get_repo('tatyanaharlamova/diagnostic_website')  # 'пользователь/репозиторий'
-for commit in repo.get_commits():
-    # print(commit.sha, commit.author, commit.last_modified, commit.url)
-    # print(dir(commit))
-    print(commit.sha, commit.author.email, commit.commit.message, commit.commit.committer.date, commit.commit.url)
+# repo = g.get_repo('tatyanaharlamova/diagnostic_website')  # 'пользователь/репозиторий'
+# for commit in repo.get_commits():
+#     # print(commit.sha, commit.author, commit.last_modified, commit.url)
+#     # print(dir(commit))
+#     print(commit.sha, commit.author.email, commit.commit.message, commit.commit.committer.date, commit.commit.url)
