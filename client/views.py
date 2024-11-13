@@ -1,5 +1,5 @@
 from django.urls import reverse_lazy
-from django.views.generic import ListView,  CreateView
+from django.views.generic import ListView, CreateView, TemplateView
 from github import Github
 
 from client.forms import GitForm
@@ -14,7 +14,6 @@ class CommitListView(ListView):
         context = super().get_context_data(**kwargs)
         search_value = self.request.GET.get("search", False)
         if search_value:
-
             objects = Commit.objects.filter(comments=search_value)
             context['object_list'] = objects
             context['search'] = search_value
@@ -47,7 +46,7 @@ class GitCreateView(CreateView):
         Commit.objects.all().delete()
         for commit in repo.get_commits():
             Commit.objects.create(sha=commit.sha, author=commit.author.email, comments=commit.commit.message,
-                   date=commit.commit.committer.date, url=commit.url, git=git)
+                                  date=commit.commit.committer.date, url=commit.url, git=git)
             print(commit.sha, commit.author.email, commit.commit.message, commit.commit.committer.date,
                   commit.commit.url)
         git.save()
@@ -57,3 +56,25 @@ class GitCreateView(CreateView):
 class CommitCreateView(CreateView):
     model = Commit
     success_url = reverse_lazy('client:commit_list')
+
+
+class GraphTemplateView(TemplateView):
+    template_name = 'client/graph_template.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        dict_data = {}
+        for obj in Commit.objects.all():
+            if obj.date.isoformat() in dict_data.keys():
+                dict_data[obj.date] += 1
+            else:
+                dict_data[obj.date] = 1
+        for k, v in dict_data.items():
+            context['data'] = [
+                {
+                    'value': v,
+                    'date': k
+                }
+            ]
+
+        return context
